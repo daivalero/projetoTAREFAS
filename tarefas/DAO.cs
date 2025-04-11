@@ -1,4 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
+using Mysqlx.Crud;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -74,5 +75,26 @@ namespace tarefas
             MySqlCommand cmd = new MySqlCommand(query, conexao);
             cmd.ExecuteNonQuery();
         }
+
+        public string AtualizarTarefa(Tarefa tarefa)
+        {
+            string atualizar = $"UPDATE tarefas SET titulo=@titulo, descricao=@descricao, dataVencimento=@dataVencimento, prioridade=@prioridade WHERE id=@id";
+
+            MySqlCommand cmd = new MySqlCommand(atualizar, conexao);
+
+            cmd.Parameters.AddWithValue("@titulo", tarefa.titulo);
+            cmd.Parameters.AddWithValue("@descricao", tarefa.descricao);
+            cmd.Parameters.AddWithValue("@dataVencimento", tarefa.data);
+            cmd.Parameters.AddWithValue("@prioridade", tarefa.prioridade);
+            cmd.Parameters.AddWithValue("@id", tarefa.id);
+
+            string resultado = cmd.ExecuteNonQuery() + " tarefa atualizada com sucesso!";
+            return resultado;
+        }
+
+
     }
-}
+
+    }
+
+
